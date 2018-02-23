@@ -209,6 +209,14 @@ typedef NS_ENUM(NSInteger, MGSwipeEasingFunction) {
 
 @end
 
+/**
+ * Optional delegate to track offset changes of the swipe view
+ */
+@protocol MGSwipeTableCellSwipeOffsetDelegate <NSObject>
+
+@optional
+-(void) swipeTableCell:(nonnull MGSwipeTableCell*) cell direction:(MGSwipeDirection)direction didSwipeToOffset:(CGFloat) offset swipeButtonWidth:(CGFloat) swipeViewWidth;
+@end
 
 /**
  * Swipe Cell class
@@ -219,6 +227,12 @@ typedef NS_ENUM(NSInteger, MGSwipeEasingFunction) {
 
 /** optional delegate (not retained) */
 @property (nonatomic, weak, nullable) id<MGSwipeTableCellDelegate> delegate;
+
+/** optional swipe offset delegate (not retained) */
+@property (nonatomic, weak, nullable) id<MGSwipeTableCellSwipeOffsetDelegate> swipeOffsetDelegate;
+
+/** Active constraint to set date menu is kept here */
+@property (nonatomic, strong, nonnull) NSLayoutConstraint * setDateMenuViewLeftConstraint;
 
 /** optional to use contentView alternative. Use this property instead of contentView to support animated views while swiping */
 @property (nonatomic, strong, readonly, nonnull) UIView * swipeContentView;

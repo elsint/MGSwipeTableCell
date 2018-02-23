@@ -1156,6 +1156,11 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
         CGFloat translation = MIN(offset, view.bounds.size.width) * sign + settings[i].offset * sign;
         view.transform = CGAffineTransformMakeTranslation(translation, 0);
 
+        if (self.swipeOffsetDelegate && [self.swipeOffsetDelegate respondsToSelector:@selector(swipeTableCell:direction:didSwipeToOffset:swipeButtonWidth:)]) {
+            MGSwipeDirection swipeDirection = i ? MGSwipeDirectionRightToLeft : MGSwipeDirectionLeftToRight;
+            [self.swipeOffsetDelegate swipeTableCell:self direction:swipeDirection didSwipeToOffset:translation swipeButtonWidth:view.bounds.size.width];
+        }
+
         if (view != activeButtons) continue; //only transition if active (perf. improvement)
         bool expand = expansions[i].buttonIndex >= 0 && offset > view.bounds.size.width * expansions[i].threshold;
         if (expand) {
